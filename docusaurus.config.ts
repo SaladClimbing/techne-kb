@@ -11,8 +11,8 @@ const config: Config = {
     v4: true,
   },
 
-  url: 'https://ppbds-kb.example.com',
-  baseUrl: '/',
+  url: 'https://saladclimbing.github.io',
+  baseUrl: '/techne-kb/',
 
   onBrokenLinks: 'throw',
 
