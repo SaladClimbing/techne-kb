@@ -9,46 +9,28 @@ import styles from './index.module.css';
 
 const topics = [
   {
-    title: 'Getting Started',
-    description: 'Course overview, tools setup, and your first steps.',
-    link: '/docs/tips-&-tricks/antigravity-tips',
-    icon: '🚀',
+    title: 'Techne Fundamentals',
+    description: 'Core concepts and tools for the Techne data science course.',
+    link: '/docs/techne-fundamentals/terminal-basics',
+    icon: '📚',
   },
   {
-    title: 'R & Tidyverse',
-    description: 'Data manipulation, analysis, and programming with R.',
-    link: '/docs/tips-&-tricks/antigravity-tips',
-    icon: '📊',
+    title: 'VS Code',
+    description: 'Tips & tricks for using Visual Studio Code both locally and in GitHub Codespaces.',
+    link: '/docs/vs-code/vscode-tips',
+    icon: '💻',
   },
   {
-    title: 'Python',
-    description: 'Python fundamentals for data science.',
-    link: '/docs/tips-&-tricks/antigravity-tips',
-    icon: '🐍',
+    title: 'Source Control',
+    description: 'Tips & tricks for Git, GitHub, and GitHub Codespaces.',
+    link: '/docs/source-control/git-tips',
+    icon: '🔀',
   },
   {
-    title: 'Statistics',
-    description: 'Statistical thinking, probability, and inference.',
-    link: '/docs/tips-&-tricks/antigravity-tips',
-    icon: '📈',
-  },
-  {
-    title: 'Machine Learning',
-    description: 'Supervised and unsupervised learning methods.',
-    link: '/docs/tips-&-tricks/antigravity-tips',
-    icon: '🤖',
-  },
-  {
-    title: 'Visualization',
-    description: 'Communicating data through effective graphics.',
-    link: '/docs/tips-&-tricks/antigravity-tips',
-    icon: '🎨',
-  },
-  {
-    title: 'Data Wrangling',
-    description: 'Cleaning, transforming, and reshaping data.',
-    link: '/docs/tips-&-tricks/antigravity-tips',
-    icon: '🔧',
+    title: 'Tips & Tricks',
+    description: 'Random tips & tricks for different tools.',
+    link: '/docs/tips-&-tricks/ai-prompting-tips',
+    icon: '💡',
   },
 ];
 
@@ -57,10 +39,10 @@ function HeroBanner() {
     <header className={clsx('hero hero--primary', styles.heroBanner)}>
       <div className="container">
         <Heading as="h1" className="hero__title">
-          PPBDS Knowledgebase
+          Techne Knowledgebase
         </Heading>
         <p className="hero__subtitle">
-          Everything you need for the data science course
+          Core concepts, tools, and tips for the data science course
         </p>
       </div>
     </header>
@@ -92,7 +74,7 @@ export default function Home(): ReactNode {
   return (
     <Layout
       title="Home"
-      description="PPBDS Data Science Knowledgebase">
+      description="Techne Data Science Knowledgebase">
       <HeroBanner />
       <main>
         <TopicCards />

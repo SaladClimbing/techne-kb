@@ -3,8 +3,8 @@ import type {Config} from '@docusaurus/types';
 import type * as Preset from '@docusaurus/preset-classic';
 
 const config: Config = {
-  title: 'PPBDS Knowledgebase',
-  tagline: 'Everything you need for the data science course',
+  title: 'Techne Knowledgebase',
+  tagline: 'Core concepts, tools, and tips for the data science course',
   favicon: 'img/favicon.ico',
 
   future: {
@@ -41,7 +41,7 @@ const config: Config = {
       respectPrefersColorScheme: true,
     },
     navbar: {
-      title: 'PPBDS KB',
+      title: 'Techne KB',
       items: [
         {
           type: 'docSidebar',
@@ -50,7 +50,7 @@ const config: Config = {
           label: 'Documentation',
         },
         {
-          to: '/docs/tips-&-tricks/antigravity-tips',
+          to: '/docs/techne-fundamentals/terminal-basics',
           label: 'Getting Started',
           position: 'left',
         },
@@ -62,21 +62,19 @@ const config: Config = {
         {
           title: 'Topics',
           items: [
-            {label: 'R & Tidyverse', to: '/docs/tips-&-tricks/antigravity-tips'},
-            {label: 'Python', to: '/docs/tips-&-tricks/antigravity-tips'},
-            {label: 'Statistics', to: '/docs/tips-&-tricks/antigravity-tips'},
+            {label: 'Techne Fundamentals', to: '/docs/techne-fundamentals/terminal-basics'},
+            {label: 'VS Code', to: '/docs/vs-code/vscode-tips'},
+            {label: 'Source Control', to: '/docs/source-control/git-tips'},
           ],
         },
         {
           title: 'More',
           items: [
-            {label: 'Machine Learning', to: '/docs/tips-&-tricks/antigravity-tips'},
-            {label: 'Visualization', to: '/docs/tips-&-tricks/antigravity-tips'},
-            {label: 'Data Wrangling', to: '/docs/tips-&-tricks/antigravity-tips'},
+            {label: 'Tips & Tricks', to: '/docs/tips-&-tricks/ai-prompting-tips'},
           ],
         },
       ],
-      copyright: `PPBDS Data Science Course`,
+      copyright: `Techne Data Science Course`,
     },
     prism: {
       theme: prismThemes.github,
