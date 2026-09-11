@@ -1,0 +1,316 @@
+# Antigravity Tips & Tricks
+
+## Speed Optimizations
+
+### Model Effort
+
+One of the most common ways to speed up Antigravity is reducing the model effort. Most tasks don't require "high" effort, and switching to "medium" significantly improves response times.
+
+Run `/model` and use the left arrow to decrease effort from high (the default) to medium. Use the right arrow to increase it back when you need extra processing power.
+
+### Parallelism
+
+Run multiple Antigravity instances simultaneously by opening new bash shells and running `agy` again. Subsequent instances skip the login step and go straight to a prompt, letting you work on multiple tasks in parallel.
+
+### Verbosity
+
+Reduce noise from tool calls by setting verbosity to **low** in `/config`. This minimizes output from numerous tool calls and keeps your terminal cleaner.
+
+## Slash Commands Reference
+
+| Command                  | Description                                               |
+| ------------------------ | --------------------------------------------------------- |
+| `/config` or `/settings` | Open the interactive settings panel                       |
+| `/btw`                   | Ask side questions that do not effect the current process |
+| `/permissions`           | Manage tool permission rules                              |
+| `/model`                 | Change model and effort level                             |
+| `/rewind` or `/undo`     | Roll back conversation to a previous point                |
+| `/clear`                 | Clear the prompt and start fresh                          |
+| `/diff`                  | View file changes                                         |
+| `?`                      | Show help and list all slash commands                     |
+
+---
+
+## Keyboard Shortcuts
+
+| Shortcut     | Action                                                |
+| ------------ | ----------------------------------------------------- |
+| `Esc`        | Cancel active stream, close menus, or clear prompt    |
+| `Esc Esc`    | Clear prompt box (when no streaming is active)        |
+| `Shift+Tab`  | Cycle execution modes (default → accept-edits → plan) |
+| `Ctrl/CMD+V` | Paste text or images from clipboard                   |
+| `Ctrl/CMD+D` | Exit Antigravity                                      |
+| `Ctrl/CMD+C` | Stop/cancel current operation                         |
+| `y`          | Approve proposed command                              |
+| `n`          | Decline proposed command                              |
+| `f`          | Open full-screen diff review                          |
+
+---
+
+# **_Everything past this line is outside the scope of the course. It can be helpful to learn but will require extra personal effort._**
+
+## Extra Slash Commands Reference
+
+| Command                  | Description                                               |
+| ------------------------ | --------------------------------------------------------- |
+| `/config` or `/settings` | Open the interactive settings panel                       |
+| `/permissions`           | Manage tool permission rules                              |
+| `/model`                 | Change model and effort level                             |
+| `/rewind` or `/undo`     | Roll back conversation to a previous point                |
+| `/btw`                   | Ask side questions that do not effect the current process |
+| `/fork`                  | Branch the conversation from an earlier point             |
+| `/resume`                | List and resume previous conversation logs                |
+| `/clear`                 | Clear the prompt and start fresh                          |
+| `/diff`                  | View file changes                                         |
+| `/boost`                 | Enable deep reasoning for complex tasks                   |
+| `/voice`                 | Enable voice dictation                                    |
+| `/agents`                | Manage background subagents                               |
+| `/statusline`            | Customize the status indicator panel                      |
+| `/title`                 | Customize terminal window title                           |
+| `/usage`                 | Check model quotas and usage                              |
+| `/credits`               | Check AI credits balance                                  |
+| `?`                      | Show help and list all slash commands                     |
+
+---
+
+## Extra Keyboard Shortcuts
+
+| Shortcut                   | Action                                                |
+| -------------------------- | ----------------------------------------------------- |
+| `Esc`                      | Cancel active stream, close menus, or clear prompt    |
+| `Esc Esc`                  | Clear prompt box (when no streaming is active)        |
+| `Shift+Tab`                | Cycle execution modes (default → accept-edits → plan) |
+| `@`                        | Trigger file path autocompletion                      |
+| `!` at start of prompt     | Run terminal commands directly                        |
+| `Ctrl+G`                   | Open prompt in your default shell editor              |
+| `Ctrl+V`                   | Paste text or images from clipboard                   |
+| `Ctrl+L`                   | Clear terminal screen                                 |
+| `Ctrl+D`                   | Exit Antigravity                                      |
+| `Ctrl+C`                   | Stop/cancel current operation                         |
+| `Ctrl+Z`                   | Suspend CLI to background                             |
+| `Ctrl+Y`                   | Yank/copy selected text                               |
+| `Ctrl+_` or `Ctrl+Shift+-` | Undo text edit                                        |
+| `Ctrl+Shift+Z`             | Redo text edit                                        |
+| `y`                        | Approve proposed command                              |
+| `n`                        | Decline proposed command                              |
+| `e`                        | Open editor to edit proposed command                  |
+| `f`                        | Open full-screen diff review                          |
+
+---
+
+## Execution Modes
+
+Cycle through modes with `Shift+Tab` or set via `--mode` flag:
+
+| Mode             | Behavior                                                  | Best For                                                          |
+| ---------------- | --------------------------------------------------------- | ----------------------------------------------------------------- |
+| **default**      | Pauses for interactive diff review before modifying files | Standard development, sensitive code changes, careful refactoring |
+| **accept-edits** | Auto-approves file edits and creations                    | Rapid prototyping, trusted code iteration, reducing interruptions |
+| **plan**         | Analyzes and outlines steps before writing code           | Complex refactoring, multi-file changes, unfamiliar codebases     |
+
+**Tip:** When Antigravity pauses for file edit confirmation in default mode, press `Shift+Tab` to instantly switch to `accept-edits` and approve all pending modifications.
+
+---
+
+## Configuration Tips
+
+Settings are stored in `~/.gemini/antigravity-cli/settings.json`. Key options:
+
+### Safety & Permissions
+
+```json
+{
+  "toolPermission": "proceed-in-sandbox",
+  "enableTerminalSandbox": true,
+  "artifactReviewPolicy": "asks-for-review"
+}
+```
+
+- **`toolPermission`**: `request-review` (default), `proceed-in-sandbox`, `strict`, or `always-proceed`
+- **`enableTerminalSandbox`**: Restricts terminal commands to secure OS container
+- **`artifactReviewPolicy`**: When to prompt for artifact review
+
+### Display & Rendering
+
+```json
+{
+  "altScreenMode": "default",
+  "verbosity": "high",
+  "colorScheme": "terminal"
+}
+```
+
+- **`altScreenMode`**: `default` (adaptive), `always`, or `never` (inline mode)
+- **`verbosity`**: `high` shows full agent thoughts; `low` shows minimal progress
+- **`colorScheme`**: `terminal`, `dark`, `light`, `solarized`, `tokyo night`
+
+### Performance
+
+```json
+{
+  "agentMode": "accept-edits"
+}
+```
+
+Set your preferred default mode to avoid cycling each session.
+
+---
+
+## Prompting Techniques
+
+### Target File Autocompletion
+
+Type `@` in the prompt box to trigger the **Interactive Path Suggestion** overlay. Select a file to import its absolute path directly into your prompt.
+
+### Run Terminal Commands
+
+Start your prompt with `!` to run terminal commands directly:
+
+```
+!npm test
+!git status
+```
+
+### Attach Visual Evidence
+
+For debugging UI issues, capture a screenshot, copy it, and press `Ctrl+V` in the prompt box to attach it. The agent will consult the media to diagnose the issue.
+
+### Enrich Context
+
+Be specific about what you want. Instead of "fix the bug", try:
+
+- "Fix the null pointer exception in `src/auth.ts:42` when user has no profile"
+- "Add error handling to the API call in `fetchUserData()`"
+
+---
+
+## Session Management
+
+### Rewind and Fork
+
+- **`/rewind`**: Roll back conversation history to a previous stable point
+- **`/fork`**: Branch off from the current point to experiment without losing your main thread
+- **`/resume`**: List and resume previous conversation logs
+
+### Auto-Save on Exit
+
+When you close Antigravity, it automatically prints the exact command needed to resume that session. Copy it for later use.
+
+### Background Tasks
+
+Use headless mode for quick queries:
+
+```bash
+agy -p "Review this git diff and draft a conventional commit message"
+```
+
+The `-p` flag runs the prompt non-interactively and exits.
+
+---
+
+## Best Practices
+
+### Establish Verification Loops
+
+Before asking the agent to implement changes:
+
+1. Ensure your workspace has a test suite ready
+2. Direct the agent to run tests after making changes
+3. Watch the agent iterate on test outputs automatically
+
+```
+Implement feature X in main.py. Run npm test afterward to verify the build.
+```
+
+### Explore, Plan, Then Execute
+
+For complex changes:
+
+1. **Explore**: Ask the agent to explain the codebase structure
+2. **Plan**: Request an implementation plan
+3. **Execute**: Once you approve the plan, direct the agent to apply edits
+
+```
+Explore how our router resolves `/docs/:page`. Write down an implementation plan to add `/docs/best-practices`.
+```
+
+### Write Rule Files
+
+Create a `GEMINI.md` or `AGENTS.md` file at your workspace root to define:
+
+- Directory standards
+- Styling paradigms
+- Test command parameters
+- Deprecation warnings
+
+The agent automatically parses these rules on startup.
+
+### Course-Correct Early
+
+Press `Esc` immediately if you see the agent executing incorrect patterns or writing unintended code. Don't wait for it to finish.
+
+---
+
+## Advanced Features
+
+### Sandbox Mode
+
+Enable sandbox mode to restrict all agent terminal commands to a secure OS container:
+
+```bash
+agy --sandbox
+```
+
+Or in settings:
+
+```json
+{
+  "enableTerminalSandbox": true
+}
+```
+
+### Gemini API Key Authentication
+
+Use your own Gemini API key instead of Google account sign-in:
+
+1. Set `modelProvider` to `gemini` in `settings.json`:
+
+```json
+{
+  "modelProvider": "gemini"
+}
+```
+
+2. Export your key:
+
+```bash
+export GEMINI_API_KEY="your-api-key"
+```
+
+### Parallel Subagents
+
+For large-scale refactoring, direct the primary agent to spawn concurrent background subagents. The agent manager handles background threads while you continue working.
+
+### Plugins and Skills
+
+Extend Antigravity with custom plugins and skills. See the official documentation for creating your own slash commands and integrations.
+
+---
+
+## Troubleshooting
+
+| Issue                                     | Solution                                                                                      |
+| ----------------------------------------- | --------------------------------------------------------------------------------------------- |
+| Icons render as boxes                     | Install a Nerd Font and configure your terminal to use it                                     |
+| CLI exits at startup with missing API key | Either export `GEMINI_API_KEY` or remove `modelProvider` from settings                        |
+| Commands feel slow                        | Reduce model effort with `/model`, or set verbosity to low                                    |
+| Session won't resume                      | Check `/resume` for available sessions, or look for the auto-save command from your last exit |
+| Sandbox restrictions blocking work        | Use `/permissions` to adjust rules, or temporarily disable sandbox                            |
+
+---
+
+## Resources
+
+- [Official Documentation](https://antigravity.google/docs/cli/)
+- [Settings Reference](https://antigravity.google/docs/cli/settings/)
+- [Best Practices Guide](https://antigravity.google/docs/cli/best-practices/)

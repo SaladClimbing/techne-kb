@@ -1,0 +1,143 @@
+# VS Code Tips & Tricks
+
+## Getting Started
+
+### Installation
+
+#### Desktop App
+1. Download VS Code from [code.visualstudio.com](https://code.visualstudio.com)
+2. Install the appropriate version for your OS
+3. Launch VS Code and sign in with your GitHub account
+
+#### In GitHub Codespaces
+- VS Code is pre-installed in every codespace
+- Access via browser or connect locally using the GitHub Codespaces extension
+
+### Essential Extensions
+
+| Extension | Purpose |
+|-----------|---------|
+| **GitHub Codespaces** | Connect to cloud dev environments |
+| **GitLens** | Enhanced Git integration |
+| **Prettier** | Code formatting |
+| **ESLint** | JavaScript/TypeScript linting |
+| **Python** | Python development support |
+| **Remote - SSH** | Connect to remote machines |
+
+---
+
+## Keyboard Shortcuts
+
+### Universal Shortcuts (Desktop & Codespaces)
+
+| Shortcut | Action |
+|----------|--------|
+| `Ctrl+Shift+P` | Command palette |
+| `` Ctrl+` `` | Toggle terminal |
+| `Ctrl+B` | Toggle sidebar |
+| `Ctrl+P` | Quick file open |
+| `Ctrl+Shift+F` | Search across files |
+| `Ctrl+Shift+Tab` | Switch between editors |
+| `Ctrl+,` | Open settings |
+
+### macOS Specific
+
+| Shortcut | Action |
+|----------|--------|
+| `Cmd+Shift+P` | Command palette |
+| `` Cmd+` `` | Toggle terminal |
+| `Cmd+B` | Toggle sidebar |
+| `Cmd+P` | Quick file open |
+
+---
+
+## Desktop App Tips
+
+### Multi-Cursor Editing
+- `Alt+Click` to add multiple cursors
+- `Ctrl+Alt+Up/Down` to add cursor above/below
+- `Ctrl+D` to select next occurrence of current selection
+
+### Integrated Terminal
+- Open multiple terminals with `Ctrl+Shift+``
+ - Switch between terminals with `Ctrl+Tab`
+- Split terminal with `Ctrl+Shift+5`
+
+### Workspace Settings
+- Create `.vscode/settings.json` for project-specific settings
+- Use `Ctrl+,` and click "Workspace" tab to configure
+
+---
+
+## GitHub Codespaces Tips
+
+### Connecting Locally
+1. Install the GitHub Codespaces extension in VS Code
+2. Ensure `gh` CLI is installed and authenticated
+3. Run `gh auth login` in terminal
+4. Use `gh codespace list` to see available codespaces
+5. Open with `code --reuse-window codespace:<name>`
+
+### Port Forwarding
+- Codespaces auto-detect ports
+- Notifications appear when apps start on ports
+- Click "Open in Browser" or find in Ports tab
+- Mark ports as private or public as needed
+
+### Devcontainer Configuration
+Create `.devcontainer/devcontainer.json` to customize your environment:
+
+```json
+{
+  "name": "My Project",
+  "image": "mcr.microsoft.com/devcontainers/python:3.12",
+  "postCreateCommand": "pip install -r requirements.txt",
+  "customizations": {
+    "vscode": {
+      "extensions": ["ms-python.python", "charliermarsh.ruff"]
+    }
+  }
+}
+```
+
+### Best Practices
+- **Stop** codespaces when not in use to avoid billing
+- **Delete** unused codespaces
+- Use smallest machine type that fits workload
+- Set up dotfiles repo for consistent environment
+- Configure secrets in GitHub Settings → Codespaces → Secrets
+
+---
+
+## Collaboration
+
+### Live Share
+- Click "Live Share" in status bar to start collaboration session
+- Share link with teammates for real-time editing
+- Works in both desktop app and Codespaces
+
+### Pair Programming
+- Use VS Code's built-in sharing features
+- Share terminal access for debugging
+- Collaborate on code in real-time
+
+---
+
+## Troubleshooting
+
+| Issue | Solution |
+|-------|----------|
+| Extensions not loading | Reload window: `Ctrl+Shift+P` → "Reload Window" |
+| Terminal not responding | Open new terminal or restart VS Code |
+| Codespace won't start | Check repo permissions and billing settings |
+| Port not accessible | Ensure port isn't blocked; mark as public if needed |
+| Slow performance | Stop unused extensions; consider higher machine type |
+
+---
+
+## Resources
+
+- [VS Code Documentation](https://code.visualstudio.com/docs)
+- [VS Code Keyboard Shortcuts](https://code.visualstudio.com/docs/getstarted/keybindings)
+- [GitHub Codespaces Docs](https://docs.github.com/en/codespaces)
+- [Devcontainers Spec](https://containers.dev)

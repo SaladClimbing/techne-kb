@@ -1,0 +1,258 @@
+# GitHub Copilot Chat Tips & Tricks
+
+## Getting Started
+
+GitHub Copilot Chat is an AI assistant integrated into VS Code that helps with coding questions, debugging, code generation, and more. Access it via the Chat view in the sidebar.
+
+### Opening Chat
+
+- **Chat Panel**: `Ctrl/CMD+Shift+I` or click the Copilot icon in the sidebar
+- **Inline Chat**: `Ctrl/CMD+I` to chat without leaving your editor
+
+---
+
+## Chat Modes
+
+Copilot Chat offers different modes for different tasks. Use `/` to switch modes in the chat input.
+
+| Mode           | Command   | Description                                          |
+| -------------- | --------- | ---------------------------------------------------- |
+| **Ask**        | `/ask`    | General questions about code, concepts, or docs      |
+| **Edit**       | `/edit`   | Apply code changes to your files directly            |
+| **Command**    | `/cmd`    | Generate and run terminal/shell commands              |
+| **Explain**    | `/explain`| Explain how a piece of code works                    |
+| **Fix**        | `/fix`    | Diagnose and fix errors in your code                 |
+| **Tests**      | `/tests`  | Generate unit tests for selected code                |
+
+**Tip:** Press `/` in the chat input to see all available slash commands.
+
+---
+
+## Slash Commands Reference
+
+| Command        | Description                                            |
+| -------------- | ------------------------------------------------------ |
+| `/ask`         | Ask a general question                                 |
+| `/edit`        | Request code edits to a file                           |
+| `/cmd`         | Generate a terminal command                            |
+| `/explain`     | Explain selected code or a concept                     |
+| `/fix`         | Fix errors or bugs in code                             |
+| `/tests`       | Generate unit tests                                   |
+| `/optimize`    | Suggest performance improvements                       |
+| `/doc`         | Generate documentation or comments                     |
+| `/clean`       | Refactor or clean up code                              |
+| `/explain-flow`| Explain the data flow of a function                    |
+| `/enum`        | Generate an enum from a list of values                 |
+| `/call`        | Generate a function call from documentation            |
+
+---
+
+## Keyboard Shortcuts
+
+| Shortcut              | Action                                        |
+| --------------------- | --------------------------------------------- |
+| `Ctrl/CMD+Shift+I`   | Open Copilot Chat panel                       |
+| `Ctrl/CMD+I`          | Open Inline Chat                              |
+| `Esc`                 | Cancel current response                       |
+| `Ctrl/CMD+Enter`      | Send message                                  |
+| `Up Arrow`            | Navigate chat history                         |
+| `Tab`                 | Accept inline suggestion                      |
+| `Ctrl/CMD+Z`          | Undo accepted suggestion                      |
+
+---
+
+# **_Everything past this line is outside the scope of the course. It can be helpful to learn but will require extra personal effort._**
+
+---
+
+## Inline Chat Tips
+
+Inline Chat lets you edit code without opening the full chat panel. Select code first to give Copilot context.
+
+### Select and Ask
+
+1. Highlight a block of code
+2. Press `Ctrl/CMD+I`
+3. Ask your question — Copilot already knows what you selected
+
+### Use for Quick Edits
+
+```
+Add error handling to this function
+Convert this loop to use array methods
+Add type annotations to these parameters
+```
+
+### Reference Files
+
+Type `#file` in Inline Chat to reference another file as context:
+
+```
+Refactor this to match the pattern in #file:utils.ts
+```
+
+---
+
+## Context and References
+
+Copilot works best when it has relevant context. Use these strategies to provide it.
+
+### Reference Files and Folders
+
+- `#file` — Reference a specific file
+- `#folder` — Reference a folder
+- `#selection` — Reference your current selection
+- `#codebase` — Reference the entire workspace
+
+Example:
+
+```
+Explain how #file:src/auth/login.ts handles authentication
+```
+
+### Reference Symbols
+
+- `#symbol` — Reference a class, function, or method
+- `#currentSelection` — What you have highlighted
+
+### Reference Docs and URLs
+
+- `#doc` — Reference documentation files
+- `#url` — Reference a URL (must be publicly accessible)
+
+---
+
+## Chat History and Threads
+
+### Save Useful Threads
+
+Your chat history is saved automatically. Access it from the Chat History panel to revisit previous conversations.
+
+### Clear Context
+
+If Copilot seems confused or off track, start a new thread with `/clear` or click the "New Chat" button to reset context.
+
+---
+
+## Effective Prompting
+
+### Be Specific
+
+| Instead of             | Try                                                        |
+| ---------------------- | ---------------------------------------------------------- |
+| "Fix this"             | "Fix the TypeError in line 42 where `user.name` is null"   |
+| "Add a function"       | "Add a function that takes a date string and returns a formatted timestamp" |
+| "Optimize this"        | "Optimize this loop to use a Map instead of array.find()"   |
+
+### Provide Context
+
+Always mention:
+- What language/framework you are using
+- What the code should accomplish
+- What error you are seeing (if any)
+- What you have already tried
+
+### Use Chat for Learning
+
+Ask questions to understand code better:
+
+```
+Explain why we use useCallback here instead of useMemo
+What's the difference between these two approaches?
+Why is this async function causing a memory leak?
+```
+
+---
+
+## Advanced Features
+
+### Workspace Summaries
+
+Ask Copilot to summarize your project structure:
+
+```
+Summarize the architecture of this codebase
+What are the main modules and how do they interact?
+```
+
+### Code Review
+
+Use Copilot as a lightweight code reviewer:
+
+```
+Review this PR for potential bugs or improvements
+Are there any security concerns in this authentication code?
+```
+
+### Multi-File Edits
+
+With `/edit` mode, describe changes across multiple files:
+
+```
+In src/api.ts, add a new endpoint GET /users/:id
+In src/types.ts, add a User interface
+In src/routes.ts, register the new route
+```
+
+### Shell Commands
+
+Use `/cmd` to generate terminal commands without remembering syntax:
+
+```
+/cmd Find all TODO comments in the project
+/cmd Set up a new Express server with TypeScript
+/cmd Create a git branch and switch to it
+```
+
+---
+
+## Best Practices
+
+### Start Small
+
+Break complex tasks into smaller pieces. Instead of "rewrite the entire auth system", ask step by step:
+
+1. "Explain the current auth flow"
+2. "What's wrong with the token refresh logic?"
+3. "Fix the token expiration handling"
+4. "Add tests for the new auth flow"
+
+### Verify Outputs
+
+Always review Copilot's suggestions before accepting. Check for:
+- Correct imports and dependencies
+- Consistent naming conventions
+- Edge cases and error handling
+- Security vulnerabilities
+
+### Leverage Your Selection
+
+Highlight code before asking a question. This gives Copilot explicit context and produces better results.
+
+### Combine with Other Tools
+
+- Use `/explain` to understand code before editing it
+- Use `/tests` after writing new code
+- Use `/fix` when you hit an error instead of debugging manually
+- Use `/cmd` for commands you do not use often
+
+---
+
+## Troubleshooting
+
+| Issue                                        | Solution                                                    |
+| -------------------------------------------- | ----------------------------------------------------------- |
+| Chat not responding                          | Check your internet connection and GitHub account status     |
+| Suggestions are irrelevant                   | Add more context — use file references or select code first |
+| Copilot ignores your instructions            | Be more specific and break into smaller tasks               |
+| "No matches" when referencing files          | Ensure the file is in your workspace and not in .gitignore  |
+| Chat history is missing                      | History may be cleared on VS Code restart — save important threads |
+| Inline Chat won't open                      | Check that the Copilot extension is enabled                 |
+
+---
+
+## Resources
+
+- [GitHub Copilot Documentation](https://docs.github.com/copilot)
+- [Copilot Chat Reference](https://docs.github.com/copilot/using-github-copilot/copilot-chat)
+- [Keyboard Shortcuts Reference](https://docs.github.com/copilot/configuring-github-copilot/configuring-github-copilot-in-your-environment)

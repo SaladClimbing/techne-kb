@@ -1,0 +1,170 @@
+# GitHub Codespaces Tips & Tricks
+
+## Getting Started
+
+### What is Codespaces?
+
+Codespaces is a cloud-hosted development environment built into GitHub. It gives you a full VS Code experience in your browser (or locally via VS Code) with everything pre-installed and ready to code.
+
+### Create a Codespace
+
+1. Go to any GitHub repo
+2. Click **Code** → **Codespaces** → **Create codespace**
+3. Under repository search for **PPBDS/codespace-starter** or simply **codespace-starter** and select it.
+4. Wait for the environment to spin up (~30 seconds)
+5. Select the **Trust folder** option
+6. Wait until the terminal reads the codespace is ready
+
+### Connect Locally (Ignore if you want to use your browser)
+
+There are two ways to connect _locally_ (i.e. connect to the cloud machine using software on your computer).
+
+Select the three dots next to the codespace from the **code** dropdown in the **PPBDS/codespace-starter** repository and select **Open in Visual Studio Code**.
+
+### OR USING THE GH CLI
+
+Install the **GitHub Codespaces** extension in VS Code and ensure **gh** is installed, then:
+
+```bash
+gh auth login                # Login to GitHub
+gh codespace list            # List your codespaces
+gh codespace ssh             # SSH into a codespace
+code --reuse-window codespace:<name>  # Open in local VS Code
+```
+
+If you prefer connecting locally you can either change the setting so it opens in VS Code automatically or does not automatically open the codespace at all if you prefer the cli.
+
+---
+
+## Speed Optimizations
+
+### Prebuild Codespaces
+
+Prebuilds snapshot your dev environment so new codespaces start faster:
+
+1. Go to repo **Settings** → **Codespaces** → **Prebuild configuration**
+2. Set the trigger (branch + frequency)
+3. Prebuilds reduce cold-start time significantly
+
+### Devcontainer Configuration
+
+Define your environment in `.devcontainer/devcontainer.json`:
+
+```json
+{
+  "name": "My Project",
+  "image": "mcr.microsoft.com/devcontainers/python:3.12",
+  "postCreateCommand": "pip install -r requirements.txt",
+  "customizations": {
+    "vscode": {
+      "extensions": ["ms-python.python", "charliermarsh.ruff"]
+    }
+  }
+}
+```
+
+Check this file into your repo so every codespace is identical.
+
+### Port Forwarding
+
+Codespaces auto-detects ports. When your app starts on a port:
+
+1. A notification pops up
+2. Click **Open in Browser** to access it
+3. Or find it in the **Ports** tab
+
+Mark ports as **private** or **public** depending on who needs access.
+
+### GitHub CLI in Codespaces
+
+The `gh` CLI is pre-installed. Use it directly in the codespace terminal:
+
+```bash
+gh pr create --title "feat: add dashboard"
+gh issue list
+gh repo clone owner/other-repo
+```
+
+---
+
+## Best Practices
+
+### Keep Codespaces Clean
+
+- **Stop** codespaces when not in use to avoid unnecessary billing
+- **Delete** codespaces you no longer need
+- Use the smallest machine type that fits your workload
+
+### Dotfiles
+
+Use a public dotfiles repo to personalize every codespace:
+
+1. Create a repo named `dotfiles` on GitHub
+2. Add your shell config (`.zshrc`, `.gitconfig`, aliases, etc.)
+3. Codespaces auto-clones it on startup
+
+### Shared Secrets
+
+Set personal codespace secrets in **GitHub Settings** → **Codespaces** → **Secrets**:
+
+```yaml
+# Available in all your codespaces as environment variables
+MY_API_KEY=...
+DATABASE_URL=...
+```
+
+---
+
+## Collaboration
+
+### Share a Codespace
+
+Share your running codespace with a teammate:
+
+1. Open the Codespaces panel
+2. Right-click your codespace → **Share**
+3. Choose permission level (read-only or read/write)
+
+### Live Share
+
+Use VS Code's **Live Share** extension inside a codespace for real-time collaboration:
+
+```bash
+# In the codespace terminal, Live Share is pre-installed
+# Click "Live Share" in the bottom status bar to start
+```
+
+---
+
+## Keyboard Shortcuts
+
+| Shortcut         | Action                 |
+| ---------------- | ---------------------- |
+| `Ctrl+Shift+P`   | Command palette        |
+| `` Ctrl+` ``     | Toggle terminal        |
+| `Ctrl+B`         | Toggle sidebar         |
+| `Ctrl+Shift+F`   | Search across files    |
+| `Ctrl+P`         | Quick file open        |
+| `Ctrl+Shift+Tab` | Switch between editors |
+
+---
+
+## Troubleshooting
+
+| Issue                     | Solution                                                                 |
+| ------------------------- | ------------------------------------------------------------------------ |
+| Codespace won't start     | Check repo permissions; ensure billing is enabled                        |
+| Extensions not installing | Add them to `devcontainer.json` under `customizations.vscode.extensions` |
+| Port not accessible       | Ensure the port is not blocked by firewall; mark as public if needed     |
+| Slow performance          | Switch to a higher machine type; stop unused extensions                  |
+| Can't push to repo        | Check codespace permissions; re-authenticate with `gh auth login`        |
+| Terminal unresponsive     | Reload the window: `Ctrl+Shift+P` → "Reload Window"                      |
+
+---
+
+## Resources
+
+- [Codespaces Docs](https://docs.github.com/en/codespaces)
+- [Devcontainers Spec](https://containers.dev)
+- [Codespaces Billing](https://docs.github.com/en/billing/managing-billing-for-github-codespaces/about-billing-for-github-codespaces)
+- [Codespaces Keyboard Shortcuts](https://docs.github.com/en/codespaces/reference/keyboard-shortcuts-in-the-codespaces-web)

@@ -1,0 +1,114 @@
+# API Keys
+
+## What is an API Key?
+
+An API key is a unique string that identifies you when your code talks to a service. Think of it like a library card — it tells the service who you are and that you're allowed to use it.
+
+You'll use API keys to access things like:
+
+- **AI models** (OpenAI, Anthropic, etc.)
+- **Data sources** (Google Maps, weather data, financial data)
+- **Cloud services** (AWS, Google Cloud, Azure)
+
+---
+
+## Why Do You Need One?
+
+Most external services don't let just anyone use them for free. An API key lets the service:
+
+1. **Track usage** — so they know how much you've used
+2. **Rate limit** — prevent abuse
+3. **Bill you** — if you go over free tiers
+4. **Revoke access** — if something goes wrong
+
+---
+
+## How to Get an API Key
+
+Each service has its own process, but it usually looks like this:
+
+1. Go to the service's website
+2. Sign up for an account
+3. Find the "Developer" or "API" section
+4. Click "Create API Key"
+5. Copy the key immediately — you usually only see it once
+
+### Example: OpenAI
+
+1. Go to [platform.openai.com](https://platform.openai.com)
+2. Sign up or log in
+3. Go to **API Keys** in the sidebar
+4. Click **Create new secret key**
+5. Copy it and store it somewhere safe
+
+---
+
+## Rules for API Keys
+
+| Do | Don't |
+|----|-------|
+| Store them in environment variables | Commit them to GitHub |
+| Use `.env` files locally | Share them with others |
+| Use Codespaces secrets | Hard-code them in scripts |
+| Rotate if accidentally exposed | Post them in Slack or email |
+
+---
+
+## Storing API Keys in Codespaces
+
+The safest way in this course is using **GitHub Codespaces secrets**:
+
+1. Go to your GitHub profile → **Settings** → **Codespaces**
+2. Click **New user secret**
+3. Enter a name like `OPENAI_API_KEY`
+4. Paste your key as the value
+5. Click **Add**
+
+The secret is then available in any codespace you create. Your code can read it like this:
+
+```python
+import os
+
+api_key = os.environ.get("OPENAI_API_KEY")
+```
+
+---
+
+## Storing API Keys Locally
+
+If you're working outside Codespaces, use a `.env` file:
+
+```
+OPENAI_API_KEY=sk-your-key-here
+```
+
+Then load it in Python:
+
+```python
+from dotenv import load_dotenv
+import os
+
+load_dotenv()
+api_key = os.environ.get("OPENAI_API_KEY")
+```
+
+Make sure `.env` is in your `.gitignore` so it never gets committed.
+
+---
+
+## What If a Key Gets Leaked?
+
+If you accidentally commit an API key:
+
+1. **Revoke it immediately** in the service's dashboard
+2. **Generate a new key**
+3. **Remove it from git history** (ask for help if needed)
+4. **Update your .env or Codespaces secret** with the new key
+
+---
+
+## Resources
+
+- [OpenAI API Keys](https://platform.openai.com/docs/api-keys)
+- [GitHub Codespaces Secrets](https://docs.github.com/en/codespaces/managing-codespaces-for-your-repository/managing-secrets-for-your-repository)
+- [dotenv Python Package](https://pypi.org/project/python-dotenv/)

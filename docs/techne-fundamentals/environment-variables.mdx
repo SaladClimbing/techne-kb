@@ -1,0 +1,166 @@
+# Environment Variables
+
+## What Are Environment Variables?
+
+Environment variables are values that live outside your code. Instead of hard-coding a setting (like an API key or a file path), you store it in the environment and your code reads it at runtime.
+
+This keeps secrets out of your code and makes it easy to change settings without editing files.
+
+---
+
+## Why Use Them?
+
+| Use Case | Example |
+|----------|---------|
+| API keys | `OPENAI_API_KEY=sk-abc123` |
+| Database URLs | `DATABASE_URL=postgres://...` |
+| Feature flags | `DEBUG=true` |
+| Paths | `DATA_DIR=/mnt/data` |
+
+The main benefits:
+
+- **Security** — Secrets stay out of your code
+- **Flexibility** — Change settings per environment
+- **Portability** — Same code works on your machine and in Codespaces
+
+---
+
+## Setting Environment Variables
+
+### In the Terminal
+
+```bash
+export OPENAI_API_KEY=sk-abc123
+```
+
+This only lasts for the current terminal session. Close the terminal and it's gone.
+
+### In a .env File
+
+Create a file called `.env` in your project root:
+
+```
+OPENAI_API_KEY=sk-abc123
+DEBUG=true
+DATA_DIR=./data
+```
+
+Then load it in Python:
+
+```python
+from dotenv import load_dotenv
+import os
+
+load_dotenv()
+
+api_key = os.environ.get("OPENAI_API_KEY")
+debug = os.environ.get("DEBUG", "false") == "true"
+```
+
+Install python-dotenv first:
+
+```bash
+pip install python-dotenv
+```
+
+### In GitHub Codespaces
+
+1. Go to GitHub → **Settings** → **Codespaces**
+2. Click **New user secret**
+3. Enter the name (e.g., `OPENAI_API_KEY`) and value
+4. The secret is available in all your codespaces
+
+---
+
+## Reading Environment Variables in Python
+
+```python
+import os
+
+# Get a value (returns None if not set)
+api_key = os.environ.get("OPENAI_API_KEY")
+
+# Get a value with a default fallback
+debug = os.environ.get("DEBUG", "false")
+
+# Get a value (raises error if not set — use for required values)
+database_url = os.environ["DATABASE_URL"]
+```
+
+---
+
+## Common Patterns
+
+### Check if a Key Exists
+
+```python
+import os
+
+if "OPENAI_API_KEY" not in os.environ:
+    print("Warning: OPENAI_API_KEY not set. AI features will not work.")
+```
+
+### Load All Settings at Once
+
+```python
+import os
+from dotenv import load_dotenv
+
+load_dotenv()
+
+CONFIG = {
+    "api_key": os.environ.get("OPENAI_API_KEY"),
+    "debug": os.environ.get("DEBUG", "false") == "true",
+    "data_dir": os.environ.get("DATA_DIR", "./data"),
+}
+```
+
+---
+
+## Security Rules
+
+1. **Never commit `.env` files** — Add `.env` to your `.gitignore`
+
+2. **Never hard-code secrets** — Always use environment variables for API keys
+
+3. **Use Codespaces secrets** — For anything sensitive in shared environments
+
+4. **Rotate leaked keys** — If a key gets committed, revoke and replace it immediately
+
+### .gitignore Example
+
+```
+.env
+.env.local
+.env.*.local
+```
+
+---
+
+## Environment Variables vs. Config Files
+
+| Approach | Best For |
+|----------|----------|
+| Environment variables | Secrets, per-machine settings |
+| Config files (JSON, YAML) | Non-secret settings, defaults |
+
+Use environment variables for anything sensitive. Use config files for things like "default chart style" or "output directory."
+
+---
+
+## Troubleshooting
+
+| Problem | Solution |
+|---------|----------|
+| Variable is `None` | Check spelling; make sure `.env` is loaded |
+| `.env` not loading | Ensure `load_dotenv()` is called before reading |
+| Secret not in Codespaces | Re-add it in GitHub Settings; restart the codespace |
+| Old value still showing | Restart terminal; env vars are loaded at startup |
+
+---
+
+## Resources
+
+- [python-dotenv Documentation](https://pypi.org/project/python-dotenv/)
+- [GitHub Codespaces Secrets](https://docs.github.com/en/codespaces/managing-codespaces-for-your-repository/managing-secrets-for-your-repository)
+- [The Twelve-Factor App: Config](https://12factor.net/config)

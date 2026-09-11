@@ -1,0 +1,137 @@
+# Package Management
+
+## What is a Package?
+
+A package (or library) is pre-written code that someone else made so you don't have to build everything from scratch. Instead of writing your own code to read a CSV file, you can use a package that already does it.
+
+For example:
+
+- **pandas** — read and manipulate data
+- **matplotlib** — create charts and graphs
+- **scikit-learn** — machine learning
+- **numpy** — math and arrays
+
+---
+
+## Installing Packages with pip
+
+`pip` is Python's package manager. You install packages from the terminal:
+
+```bash
+pip install pandas
+```
+
+This downloads pandas and all its dependencies.
+
+### Install Multiple Packages
+
+```bash
+pip install pandas matplotlib scikit-learn
+```
+
+### Install a Specific Version
+
+```bash
+pip install pandas==2.1.0
+```
+
+### Upgrade a Package
+
+```bash
+pip install --upgrade pandas
+```
+
+### Uninstall a Package
+
+```bash
+pip uninstall pandas
+```
+
+---
+
+## Requirements Files
+
+When working on a project, you should keep track of which packages you need. This is done with a `requirements.txt` file:
+
+```
+pandas==2.1.0
+matplotlib>=3.7.0
+scikit-learn
+```
+
+### Create a requirements.txt
+
+After installing packages, freeze your environment:
+
+```bash
+pip freeze > requirements.txt
+```
+
+### Install from requirements.txt
+
+Anyone who clones your project can install the same packages:
+
+```bash
+pip install -r requirements.txt
+```
+
+This is essential for reproducibility — everyone gets the same setup.
+
+---
+
+## Conda (Alternative)
+
+Conda is another package manager, often used in data science. It can install both Python packages and non-Python tools (like CUDA for GPUs).
+
+```bash
+conda install pandas
+conda install -c conda-forge matplotlib
+```
+
+In this course, `pip` is usually sufficient. Use conda if a package requires it.
+
+---
+
+## Common Data Science Packages
+
+| Package | Purpose |
+|---------|---------|
+| `pandas` | Data manipulation and analysis |
+| `numpy` | Numerical computing |
+| `matplotlib` | Basic plotting |
+| `seaborn` | Statistical visualizations |
+| `scikit-learn` | Machine learning |
+| `jupyter` | Interactive notebooks |
+| `requests` | Make HTTP requests |
+| `python-dotenv` | Load `.env` files |
+
+---
+
+## Best Practices
+
+1. **Always use requirements.txt** — So others can reproduce your environment.
+
+2. **Pin versions for stability** — Use `==` for exact versions in production.
+
+3. **One project, one environment** — Don't install everything globally. Use virtual environments for larger projects.
+
+4. **Don't commit installed packages** — Only commit `requirements.txt`, not the actual package files.
+
+---
+
+## Troubleshooting
+
+| Problem | Solution |
+|---------|----------|
+| "pip: command not found" | Use `python -m pip install` instead |
+| Package won't install | Check Python version compatibility |
+| Conflicting versions | Use a virtual environment |
+| Slow download | Try a mirror: `pip install -i https://pypi.org/simple/ pandas` |
+
+---
+
+## Resources
+
+- [Python Package User Guide](https://packaging.python.org/en/latest/guides/using-pip/)
+- [PyPI (Python Package Index)](https://pypi.org/)
+- [Conda Documentation](https://docs.conda.io/)

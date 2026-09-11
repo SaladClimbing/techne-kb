@@ -1,0 +1,208 @@
+# GitHub Tips & Tricks
+
+## Repository Basics
+
+### README
+
+Every repo should have a `README.md` at the root. It's the front door to your project. Include:
+
+- What the project does
+- How to install and run it
+- How to contribute
+- License info
+
+---
+
+## GitHub Pages
+
+### Enable GitHub Pages
+
+1. Go to repo **Settings** → **Pages**
+2. Select source branch (usually `main` or `gh-pages`)
+3. Your site is live at `https://username.github.io/repo`
+
+---
+
+## Pull Requests
+
+### Creating Good PRs
+
+1. Create a descriptive branch name: `feature/user-auth`, `fix/null-pointer`
+2. Keep PRs small and focused — one change per PR
+3. Write a clear title and description
+4. Reference related issues: `Closes #42`
+5. Add screenshots for UI changes
+
+### PR Commands
+
+```bash
+gh pr create --title "feat: add login" --body "Adds user authentication flow"
+gh pr checkout 12       # Switch to PR #12 locally
+gh pr merge 12          # Merge PR #12
+gh pr diff 12           # View PR diff
+gh pr review 12 --approve  # Approve a PR
+```
+
+### Code Review Tips
+
+- Leave inline comments on specific lines
+- Use "Request Changes" for blockers, "Approve" for good-to-go
+- Keep feedback constructive and specific
+- Use `Suggested Changes` to propose exact code edits
+
+---
+
+## Issues
+
+### Issue Templates
+
+Create `.github/ISSUE_TEMPLATE/` files to standardize issue reporting:
+
+- `bug_report.md` — structured bug reports
+- `feature_request.md` — feature suggestions
+
+### Labels
+
+Use labels to organize and filter issues:
+
+- `bug` — something is broken
+- `enhancement` — new feature or improvement
+- `good first issue` — beginner-friendly
+- `help wanted` — community contributions welcome
+- `priority: high` — needs immediate attention
+
+### Keyboard Shortcuts
+
+On any GitHub page, press `.` to open a file in the web editor (useful for quick fixes).
+
+---
+
+## GitHub Actions
+
+### Basic Workflow
+
+Create `.github/workflows/ci.yml`:
+
+```yaml
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - run: npm ci
+      - run: npm test
+```
+
+### Reusable Workflows
+
+Reference community actions from the Marketplace instead of writing everything from scratch:
+
+```yaml
+- uses: actions/setup-python@v5
+- uses: codecov/codecov-action@v4
+- uses: peaceiris/actions-gh-pages@v4
+```
+
+---
+
+## Forking Workflow
+
+### How to Fork and Contribute
+
+1. Click **Fork** on the original repo
+2. Clone your fork: `gh repo clone your-username/repo`
+3. Create a branch: `git switch -c my-feature`
+4. Make changes and commit
+5. Push: `git push origin my-feature`
+6. Open a PR from your fork back to the original repo
+
+### Syncing a Fork
+
+```bash
+git remote add upstream https://github.com/original/repo.git
+git fetch upstream
+git rebase upstream/main
+git push origin main
+```
+
+---
+
+## GitHub CLI (`gh`)
+
+Install the GitHub CLI to manage repos, PRs, and issues from the terminal:
+
+```bash
+brew install gh          # macOS
+gh auth login            # Authenticate with GitHub
+gh repo clone owner/repo # Clone a repo
+gh pr create            # Open a pull request
+gh pr list              # List open PRs
+gh issue create         # Open a new issue
+gh issue list           # List open issues
+gh repo view            # View repo info in terminal
+```
+
+---
+
+## Best Practices
+
+### Protect `main`
+
+Enable branch protection rules in **Settings** → **Branches**:
+
+- Require pull request reviews before merging
+- Require status checks to pass
+- Require linear history (no merge commits)
+
+### Secrets Management
+
+Never commit secrets. Use **Settings** → **Secrets and variables** → **Actions** for CI/CD secrets:
+
+```yaml
+env:
+  API_KEY: ${{ secrets.API_KEY }}
+```
+
+### Pin Dependencies
+
+Pin actions to specific versions for reproducibility:
+
+```yaml
+# Good — pinned to v4
+- uses: actions/checkout@v4
+
+# Avoid — floating tag
+- uses: actions/checkout@main
+```
+
+---
+
+## Troubleshooting
+
+| Issue                            | Solution                                                           |
+| -------------------------------- | ------------------------------------------------------------------ |
+| Push rejected (non-fast-forward) | `git pull --rebase origin main` then push again                    |
+| PR has merge conflicts           | Rebase onto main: `git rebase main`, resolve conflicts, force push |
+| Can't push large files           | Use [Git LFS](https://git-lfs.com/) for large binary files         |
+| Secrets leaked in repo           | Rotate the secret immediately, remove from history with BFG        |
+| Actions workflow failing         | Check the **Actions** tab for logs; ensure secrets are set         |
+
+---
+
+## Resources
+
+- [GitHub Docs](https://docs.github.com)
+- [GitHub Skills](https://skills.github.com)
+- [GitHub CLI Manual](https://cli.github.com/manual)
+- [GitHub Actions Docs](https://docs.github.com/en/actions)

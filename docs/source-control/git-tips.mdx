@@ -1,0 +1,161 @@
+# Git Tips & Tricks
+
+## Essential Commands
+
+### Staging and Committing
+
+```bash
+git add -p              # Stage changes interactively (hunk by hunk)
+git commit -m "msg"     # Commit with inline message
+git commit --amend      # Add staged changes to the last commit
+git commit --amend --no-edit  # Amend last commit without changing message
+```
+
+### Undoing Changes
+
+| Command | What It Does |
+| --- | --- |
+| `git restore <file>` | Discard working directory changes |
+| `git restore --staged <file>` | Unstage a file (keeps changes in working dir) |
+| `git reset HEAD~1` | Undo last commit, keep changes staged |
+| `git reset --soft HEAD~1` | Undo last commit, keep changes staged |
+| `git reset --hard HEAD~1` | Undo last commit and discard all changes |
+| `git stash` | Temporarily shelve current changes |
+| `git stash pop` | Re-apply the most recently stashed changes |
+| `git stash drop` | Delete the most recent stash |
+
+### Branching
+
+```bash
+git branch              # List local branches
+git branch -a           # List all branches (local + remote)
+git branch <name>       # Create a new branch
+git checkout <name>     # Switch to a branch
+git checkout -b <name>  # Create and switch in one step
+git switch <name>       # Switch to a branch (modern syntax)
+git switch -c <name>    # Create and switch (modern syntax)
+git branch -d <name>    # Delete a merged branch
+git branch -D <name>    # Force delete a branch
+```
+
+### Log and Diff
+
+```bash
+git log --oneline           # Condensed commit history
+git log --oneline --graph   # Visual branch graph
+git log -p                  # Show diffs for each commit
+git diff                    # Unstaged changes
+git diff --staged           # Staged changes
+git diff main..feature      # Compare two branches
+```
+
+---
+
+## Speed Optimizations
+
+### Git Aliases
+
+Add these to your `~/.gitconfig` to save keystrokes:
+
+```ini
+[alias]
+    s = status -sb
+    co = checkout
+    cm = commit -m
+    lg = log --oneline --graph --all --decorate
+    unstage = restore --staged
+    last = log -1 HEAD
+    undo = reset --soft HEAD~1
+    amend = commit --amend --no-edit
+```
+
+### Partial Staging
+
+Instead of `git add .`, stage only the pieces you want:
+
+```bash
+git add -p
+```
+
+You'll be prompted for each hunk — press `y` to stage, `n` to skip, `s` to split, `q` to quit.
+
+### Rebase Instead of Merge
+
+Keep a linear history by rebasing feature branches onto `main`:
+
+```bash
+git checkout feature
+git rebase main
+```
+
+If conflicts arise, resolve them, then run `git rebase --continue`. If it gets messy, abort with `git rebase --abort`.
+
+### Interactive Rebase
+
+Clean up commits before merging:
+
+```bash
+git rebase -i HEAD~3    # Edit the last 3 commits
+```
+
+Options: `pick` (keep), `squash` (combine), `reword` (edit message), `drop` (remove).
+
+---
+
+## Best Practices
+
+### Write Good Commit Messages
+
+Follow the Conventional Commits format:
+
+```
+feat: add user login endpoint
+fix: handle null pointer in profile fetch
+docs: update README with setup instructions
+refactor: simplify authentication middleware
+```
+
+Keep the subject line under 50 characters. Add a blank line and body for longer explanations.
+
+### .gitignore
+
+Always add a `.gitignore` at your repo root. Common entries:
+
+```
+node_modules/
+.env
+.DS_Store
+__pycache__/
+*.pyc
+dist/
+build/
+```
+
+### Sign Your Commits
+
+Use GPG or SSH signing to verify commit authenticity:
+
+```bash
+git config --global commit.gpgsign true
+git config --global user.signingkey <YOUR_KEY_ID>
+```
+
+---
+
+## Troubleshooting
+
+| Issue | Solution |
+| --- | --- |
+| Accidentally committed to `main` | `git switch -c feature && git reset --soft HEAD~1` |
+| Detached HEAD state | `git switch <branch>` to get back |
+| Merge conflict markers in file | Open the file, search for `<<<<<<<`, resolve, then `git add` and `git commit` |
+| Pushed sensitive data | Rotate the key immediately, then `git filter-branch` or BFG Repo-Cleaner |
+| Stash won't pop | Check `git stash list` for conflicts; use `git stash drop` if needed |
+
+---
+
+## Resources
+
+- [Git Documentation](https://git-scm.com/doc)
+- [Git Cheat Sheet (GitHub)](https://education.github.com/git-cheat-sheet-education.pdf)
+- [Pro Git Book](https://git-scm.com/book/en/v2)

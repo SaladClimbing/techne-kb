@@ -1,0 +1,431 @@
+# AI Prompting Tips & Tricks
+
+## Getting Started
+
+AI tools like GitHub Copilot, ChatGPT, Claude, and Antigravity can dramatically speed up your workflow — but only if you know how to talk to them. This guide covers universal prompting strategies that work across all AI tools, with examples tailored to data science work.
+
+### Why Prompting Matters
+
+The difference between a vague prompt and a well-crafted one can mean the difference between a useless response and exactly what you need. Learning to prompt effectively is one of the highest-leverage skills you can develop.
+
+### The Basic Idea
+
+A prompt is simply the text you give an AI tool. Good prompts are **specific**, **contextual**, and **actionable**. Bad prompts are vague, missing context, and open-ended.
+
+---
+
+## Core Principles
+
+### Be Specific
+
+Vague prompts get vague answers. Always include details about what you want, what format you expect, and what constraints apply.
+
+| Instead of                                  | Try                                                                 |
+| ------------------------------------------- | ------------------------------------------------------------------- |
+| "Clean this data"                           | "Remove rows with missing values in the `price` column and convert `date` to Date type" |
+| "Make a chart"                              | "Create a bar chart of sales by region using ggplot2, sorted descending" |
+| "Is this right?"                            | "Check if this linear regression syntax is correct for predicting `salary` from `experience` and `education`" |
+| "Fix the error"                             | "Fix the TypeError in line 42 where `user.name` is null"           |
+
+### Provide Context
+
+AI tools don't know what you're working on unless you tell them. Always mention:
+
+- **What language/package** you are using
+- **What the data looks like** (column names, types, sample rows)
+- **What you are trying to accomplish** (the goal, not just the task)
+- **What you have already tried** (so it doesn't repeat your mistakes)
+
+### Show, Don't Just Tell
+
+Include relevant code, error messages, or data snippets in your prompt. The more concrete context you provide, the better the response.
+
+```
+I have a DataFrame `df` with columns: user_id, timestamp, action, value.
+
+Here are the first 3 rows:
+  user_id  timestamp              action   value
+1 101      2024-01-15 08:23:00    login    NA
+2 101      2024-01-15 08:25:00    purchase 49.99
+3 102      2024-01-15 09:01:00    login    NA
+
+Write code to calculate average purchase value per user, excluding login actions.
+```
+
+### Set Constraints
+
+Tell the AI what you want and what you don't want.
+
+- "Use only base R, no tidyverse"
+- "Write a function that handles empty DataFrames gracefully"
+- "Keep the response under 20 lines"
+- "Use pandas, not polars"
+
+---
+
+## Prompt Patterns
+
+These are reusable patterns you can adapt for any task.
+
+### Role Assignment
+
+Tell the AI who it should be. This primes it to use the right knowledge and tone.
+
+```
+Act as a statistics professor. Explain p-values to someone who
+has never taken a stats class. Use a real-world analogy.
+```
+
+```
+You are a senior data scientist reviewing a junior's code.
+Point out any issues with this analysis and suggest improvements.
+```
+
+### Step-by-Step Instructions
+
+Break complex tasks into numbered steps. This reduces errors and makes it easier to modify part of the process.
+
+```
+Do the following steps:
+1. Load the CSV file "sales.csv"
+2. Filter to only rows where date is in 2024
+3. Group by product_category
+4. Calculate total revenue and average order value per category
+5. Sort by total revenue descending
+6. Print the result as a formatted table
+```
+
+### Few-Shot Examples
+
+Show the AI what you want by giving examples of input → output pairs.
+
+```
+Convert these descriptions to SQL WHERE clauses:
+
+Input: "sales in January" → WHERE month = 'January'
+Input: "revenue over 1000" → WHERE revenue > 1000
+Input: "active users in the last 30 days" → WHERE last_active >= CURRENT_DATE - INTERVAL '30 days'
+
+Now convert: "products with fewer than 10 reviews and rating above 4"
+```
+
+### Constraint Setting
+
+Define boundaries for the response.
+
+```
+Write a data cleaning function in Python. Requirements:
+- Input: a pandas DataFrame
+- Output: cleaned DataFrame
+- Must handle: missing values, duplicates, type conversion
+- Do NOT use any external libraries beyond pandas and numpy
+- Include docstring and type hints
+- Max 30 lines of code
+```
+
+---
+
+## Working with Code
+
+### Generating Code
+
+Always specify the language, libraries, and data structure.
+
+```
+Write R code using dplyr to:
+1. Read "customers.csv" with readr::read_csv()
+2. Filter to customers where age >= 18
+3. Create a new column age_group using case_when:
+   - 18-25: "Young"
+   - 26-40: "Adult"
+   - 41+: "Senior"
+4. Count customers per age_group
+```
+
+### Debugging
+
+Include the full error message, the code that produced it, and what you expected.
+
+```
+I'm getting this error in R:
+
+Error in mutate(df, total = price * qty) : object 'qty' not found
+
+Here's my code:
+df <- read.csv("orders.csv")
+df <- df %>% mutate(total = price * qty)
+
+The CSV has columns: order_id, product, price, quantity, date
+
+What went wrong and how do I fix it?
+```
+
+### Explaining Code
+
+Ask for explanations at the level you need.
+
+```
+Explain this R code line by line. I'm a beginner — explain
+what each function does and why we're chaining them together.
+
+df %>%
+  filter(!is.na(revenue)) %>%
+  group_by(region) %>%
+  summarise(avg_rev = mean(revenue), n = n()) %>%
+  arrange(desc(avg_rev))
+```
+
+### Refactoring
+
+Describe the goal, not just the transformation.
+
+```
+Refactor this code to be more readable and efficient.
+The goal is to calculate the 7-day rolling average of daily
+revenue. Current approach uses a for loop — is there a
+vectorized or tidyverse way to do this?
+```
+
+---
+
+## Working with Data
+
+### Data Exploration
+
+Start broad, then narrow down.
+
+```
+I have a dataset with 50,000 rows and 30 columns about
+e-commerce transactions. Give me a step-by-step EDA plan
+to understand customer purchasing behavior.
+```
+
+### Visualization
+
+Describe the message, not just the chart type.
+
+```
+Create a visualization that shows how customer retention
+changes across cohorts. I want to see which cohorts retain
+best over time. Suggest the best chart type and provide
+the code using ggplot2.
+```
+
+### Statistical Analysis
+
+Explain what you want to learn, not just which test to run.
+
+```
+I want to know whether there's a significant difference in
+average order value between customers who arrived via paid
+ads vs. organic search. My data has columns: customer_id,
+acquisition_channel, order_value. What statistical test
+should I use, and how do I run it in R?
+```
+
+### Model Building
+
+Describe the problem, the data, and the constraints.
+
+```
+I need to build a classification model to predict whether
+a customer will churn within 30 days.
+
+Data:
+- 10,000 rows, 15 columns
+- Target: churned (binary: TRUE/FALSE)
+- Features include: tenure, monthly_spend, support_tickets, usage_hours
+
+Constraints:
+- Must be interpretable (no black-box models)
+- Training time under 5 minutes
+- Need feature importance rankings
+
+Suggest an approach and provide R code using tidymodels.
+```
+
+---
+
+## Iterative Refinement
+
+Your first prompt rarely gets the perfect answer. Treat prompting as a conversation.
+
+### Start Simple, Then Refine
+
+1. **First prompt:** Get a basic version working
+2. **Follow-up:** Add requirements one at a time
+3. **Polish:** Ask for specific improvements
+
+```
+Prompt 1: "Write a function to calculate mean and median of a numeric vector"
+Prompt 2: "Add NA handling — skip NAs and warn if all values are missing"
+Prompt 3: "Also return the standard deviation and count of non-missing values"
+Prompt 4: "Wrap this in a function that takes a data frame and applies it to all numeric columns"
+```
+
+### Correct Course
+
+If the AI goes in the wrong direction, redirect clearly.
+
+```
+That's close, but I actually need a grouped summary, not a
+frequency table. Instead of count(), use summarise() to get
+the mean and median of revenue per region.
+```
+
+### Ask for Alternatives
+
+```
+Give me three different approaches to handle missing values
+in this dataset. For each, explain when it's appropriate
+and provide the R code.
+```
+
+---
+
+# **_Everything past this line is outside the scope of the course. It can be helpful to learn but will require extra personal effort._**
+
+---
+
+## Advanced Techniques
+
+### Chain-of-Thought Prompting
+
+Ask the AI to show its reasoning step by step. This improves accuracy on complex problems.
+
+```
+Think through this step by step:
+1. What are the assumptions of a linear regression?
+2. Which assumptions might be violated in my dataset
+   ( skewed income, categorical predictors, grouped data)?
+3. What diagnostics should I run?
+4. What are my alternatives if assumptions fail?
+```
+
+### Meta-Prompting
+
+Ask the AI to help you write better prompts.
+
+```
+I want to analyze customer churn data. I'm not sure what
+to ask you. What questions should I be asking? Help me
+structure my prompts to get the most useful analysis.
+```
+
+### Prompt Chaining
+
+Break a complex workflow into a chain of prompts where each output feeds the next.
+
+```
+Chain:
+1. "Explore this dataset and summarize the key patterns"
+2. "Based on those patterns, suggest 3 hypotheses to test"
+3. "For hypothesis 1, write the R code to test it"
+4. "Interpret these results and explain what they mean for the business"
+```
+
+### Self-Consistency
+
+Ask the same question multiple times and compare answers. If the AI gives different answers, ask it to reconcile them.
+
+```
+I've asked you this question twice and gotten different
+answers. Explain why these approaches differ and which
+one you recommend given my specific constraints.
+```
+
+---
+
+## Common Pitfalls
+
+| Pitfall | Why It Happens | How to Avoid It |
+| --- | --- | --- |
+| **Hallucinated functions** | AI invents package functions that don't exist | Always verify with documentation; ask "does this function exist in [package]?" |
+| **Over-reliance** | Accepting AI output without understanding | Run the code yourself; ask the AI to explain why it works |
+| **Ignoring edge cases** | AI writes happy-path-only code | Explicitly ask: "What happens with empty input? Missing values? Large datasets?" |
+| **Wrong output format** | AI produces a list when you need a table | State the exact format: "Return as a data frame with columns X, Y, Z" |
+| **Context window limits** | Too much code pasted at once | Focus on the relevant section; summarize the rest |
+| **Confirmation bias** | AI agrees with your incorrect assumption | Ask "What's wrong with this approach?" instead of "Is this right?" |
+
+---
+
+## Prompt Templates
+
+Copy and adapt these for common course tasks.
+
+### Data Cleaning
+
+```
+Clean this dataset:
+- File: [filename.csv]
+- Issues to address: [missing values / duplicates / wrong types / outliers]
+- Keep or remove columns: [list]
+- Output: cleaned data frame with a summary of changes made
+- Language: [R / Python]
+```
+
+### Exploratory Data Analysis
+
+```
+Perform EDA on [dataset name]:
+- Target variable: [column name]
+- Key questions: [what you want to learn]
+- Include: distributions, correlations, missing data patterns, group comparisons
+- Output format: code with inline comments explaining findings
+```
+
+### Statistical Test
+
+```
+I want to test whether [variable A] is associated with [variable B].
+- Variable A type: [continuous / categorical]
+- Variable B type: [continuous / categorical]
+- Data structure: [one row per observation / grouped]
+- Assumptions to check: [list if known, or ask for guidance]
+- Provide: test selection reasoning, assumption checks, test code, interpretation
+```
+
+### Model Building
+
+```
+Build a [classification / regression] model to predict [target].
+- Features: [list or describe]
+- Constraints: [interpretability / speed / accuracy]
+- Evaluation metric: [accuracy / RMSE / AUC / F1]
+- Provide: preprocessing, model training, evaluation, and interpretation
+```
+
+### Report / Summary
+
+```
+Write a data analysis report section for [topic]:
+- Audience: [technical / non-technical / executive]
+- Key findings: [list]
+- Include: context, methods, results, limitations, recommendations
+- Tone: [formal / conversational]
+```
+
+---
+
+## Troubleshooting
+
+| Issue | Solution |
+| --- | --- |
+| AI generates code for the wrong language | Explicitly state the language in your prompt: "Write this in R, not Python" |
+| Response is too long or verbose | Add constraints: "Keep it under 20 lines" or "Give me only the code, no explanation" |
+| AI invents functions that don't exist | Ask: "Does this function exist in [package]? Show me the documentation link." |
+| Output format is wrong | Specify the format: "Return as a tibble with columns X, Y, Z" |
+| AI forgets previous context | Restate key requirements at the start of each follow-up prompt |
+| Code works but is inefficient | Ask: "Is there a vectorized / faster way to do this?" |
+| AI gives contradictory advice | Ask: "Reconcile these two approaches — which is better for my use case?" |
+
+---
+
+## Resources
+
+- [OpenAI Prompt Engineering Guide](https://platform.openai.com/docs/guides/prompt-engineering)
+- [Anthropic Prompt Engineering Guide](https://docs.anthropic.com/en/docs/build-with-claude/prompt-engineering)
+- [Google AI Prompt Design Guide](https://ai.google.dev/gemini-api/docs/prompting-intro)
+- [Tidyverse Documentation](https://www.tidyverse.org/)
+- [R for Data Science (2e)](https://r4ds.hadley.nz/)
+- [tidymodels Documentation](https://www.tidymodels.org/)

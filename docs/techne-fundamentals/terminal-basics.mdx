@@ -1,0 +1,118 @@
+# Terminal Basics
+
+## What is the Terminal?
+
+The terminal is a text-based way to interact with your computer. Instead of clicking icons, you type commands. It's where a lot of real work happens in data science.
+
+In GitHub Codespaces, the terminal is already open at the bottom of VS Code.
+
+---
+
+## Opening the Terminal
+
+| Environment | How to Open |
+|-------------|-------------|
+| **VS Code Desktop** | `` Ctrl+` `` (backtick) or **Terminal → New Terminal** |
+| **Codespaces (Browser)** | Usually open by default; or `` Ctrl+` `` |
+| **Mac Terminal** | Spotlight → type "Terminal" |
+
+---
+
+## Essential Commands
+
+### Navigating Files
+
+| Command | What It Does | Example |
+|---------|--------------|---------|
+| `pwd` | Show current directory | `pwd` |
+| `ls` | List files in current directory | `ls` |
+| `ls -la` | List all files including hidden | `ls -la` |
+| `cd` | Change directory | `cd Documents` |
+| `cd ..` | Go up one directory | `cd ..` |
+| `cd ~` | Go to home directory | `cd ~` |
+
+### Working with Files
+
+| Command | What It Does | Example |
+|---------|--------------|---------|
+| `mkdir` | Create a folder | `mkdir my-project` |
+| `touch` | Create an empty file | `touch notes.txt` |
+| `cat` | Print file contents | `cat notes.txt` |
+| `cp` | Copy a file | `cp file.txt backup.txt` |
+| `mv` | Move or rename a file | `mv old.txt new.txt` |
+| `rm` | Delete a file | `rm notes.txt` |
+| `rm -rf` | Delete a folder and its contents | `rm -rf old-folder` |
+
+### Getting Help
+
+| Command | What It Does |
+|---------|--------------|
+| `clear` | Clear the terminal screen |
+| `history` | Show previously run commands |
+| `up arrow` | Recall last command |
+| `Ctrl+C` | Stop a running command |
+| `Tab` | Auto-complete file/folder names |
+
+---
+
+## Tips for Beginners
+
+1. **Use Tab completion** — Start typing a filename, then press `Tab` to auto-complete. This saves time and avoids typos.
+
+2. **Use up arrow** — Press the up arrow to cycle through previous commands instead of re-typing them.
+
+3. **Check where you are** — Run `pwd` if you're unsure which directory you're in.
+
+4. **List before deleting** — Run `ls` to see what's in a folder before using `rm`.
+
+5. **Copy long paths** — Instead of typing long paths, drag a file into the terminal to paste its path.
+
+---
+
+## Common Workflows
+
+### Create a Project Folder
+
+```bash
+mkdir my-analysis
+cd my-analysis
+git init
+```
+
+### Find a File
+
+```bash
+ls                    # What's here?
+ls data/              # What's in data/
+find . -name "*.csv"  # Find all CSV files
+```
+
+### Run a Python Script
+
+```bash
+python analysis.py
+```
+
+### Install a Package
+
+```bash
+pip install pandas
+```
+
+---
+
+## Troubleshooting
+
+| Problem | Solution |
+|---------|----------|
+| "Permission denied" | Use `sudo` (be careful) or check file permissions |
+| "No such file or directory" | Check the path with `ls`; use `cd` to navigate |
+| Command not found | Make sure the program is installed |
+| Terminal frozen | Press `Ctrl+C` to stop, or close and reopen |
+
+---
+
+## Resources
+
+- [GitHub Codespaces Basics](https://docs.github.com/en/codespaces/getting-started-with-github-codespaces/using-the-codespaces-web-editor)
+- [Terminal Tutorial for Beginners](https://www.youtube.com/watch?v=5XgKdkgUdww)
